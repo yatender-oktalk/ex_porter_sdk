@@ -7,26 +7,44 @@ defmodule ExPorterSdk.MixProject do
       version: "0.1.0",
       elixir: "~> 1.15",
       start_permanent: Mix.env() == :prod,
-      deps: deps()
+      deps: deps(),
+      description: description(),
+      package: package(),
+      name: "ExPorterSdk",
+      source_url: "https://github.com/yatender-oktalk/ex_porter_sdk"
     ]
   end
 
-  # Run "mix help compile.app" to learn about applications.
   def application do
     [
       extra_applications: [:logger]
     ]
   end
 
-  # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
       {:typed_struct, "~> 0.1.4"},
       {:req, "~> 0.5.7"},
       {:jason, "~> 1.4.0"},
       {:ex_doc, "~> 0.34", only: :dev, runtime: false}
+    ]
+  end
 
-      # {:dep_from_git, git: "https://github.com/elixir-lang/my_dep.git", tag: "0.1.0"}
+  defp description do
+    """
+    A Porter SDK for Elixir. Add your detailed package description here.
+    """
+  end
+
+  defp package do
+    [
+      name: "ex_porter_sdk",
+      files: ~w(lib .formatter.exs mix.exs README* LICENSE* CHANGELOG*),
+      licenses: ["MIT"],
+      links: %{
+        "GitHub" => "https://github.com/yatender-oktalk/ex_porter_sdk"
+      },
+      maintainers: ["Yatender Singh"]
     ]
   end
 end

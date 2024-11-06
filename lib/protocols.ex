@@ -2,8 +2,13 @@ defmodule ExPorterSDK.Protocols do
   defprotocol Mappable do
     @doc "Converts a struct to a map, handling nested structures"
     @spec to_map(struct()) :: map()
-    @fallback_to_any true
     def to_map(struct)
+  end
+
+  defprotocol Structable do
+    @doc "Converts a map to a struct, handling nested structures"
+    @spec from_map(map()) :: struct()
+    def from_map(map)
   end
 
   defprotocol Validatable do
