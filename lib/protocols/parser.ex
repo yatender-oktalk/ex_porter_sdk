@@ -135,15 +135,6 @@ defmodule Parser do
       coord_type == "latitude" and value >= -90 and value <= 90 ->
         {:ok, value}
 
-        defp deps do
-          [
-            {:typed_struct, "~> 0.1.4"},
-            {:req, "~> 0.5.7"},
-            {:jason, "~> 1.4.0"},
-            {:ex_doc, "~> 0.34", only: :dev, runtime: false}
-          ]
-        end
-
       coord_type == "longitude" and value >= -180 and value <= 180 ->
         {:ok, value}
 
