@@ -63,7 +63,6 @@ config :ex_porter_sdk,
 The SDK includes stub implementations that can be used in your tests:
 
 ```elixir
-# In your test file
 defmodule YourApp.DeliveryTest do
   use ExUnit.Case
   
