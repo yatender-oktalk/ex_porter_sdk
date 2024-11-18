@@ -26,6 +26,7 @@ defmodule ExPorterSdk.MixProject do
       {:typed_struct, "~> 0.1.4"},
       {:req, "~> 0.5.7"},
       {:jason, "~> 1.4.0"},
+      {:mox, "~> 1.0", only: :test},
       {:ex_doc, "~> 0.34", only: :dev, runtime: false}
     ]
   end
