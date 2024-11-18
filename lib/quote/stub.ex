@@ -6,7 +6,7 @@ defmodule ExPorterSDK.Quote.Stub do
   @behaviour ExPorterSDK.Behaviours.Quote
 
   @impl true
-  def get_quote(params) do
+  def get_quote(_params) do
     {:ok,
      %{
        "vehicles" => [

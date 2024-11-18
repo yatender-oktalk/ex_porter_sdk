@@ -1,3 +1,4 @@
+# lib/ex_porter_sdk/error_handler.ex
 defmodule ExPorterSDK.ErrorHandler do
   require Logger
 
@@ -23,19 +24,11 @@ defmodule ExPorterSDK.ErrorHandler do
     {:error, %{status: status, message: body}}
   end
 
-  def handle_response({:error, %Req.Error{reason: reason}}) do
+  def handle_response({:error, reason}) do
     Logger.error("Request error",
       error: inspect(reason)
     )
 
     {:error, %{status: :network_error, message: "Network or connection error"}}
-  end
-
-  def handle_response({:error, error}) do
-    Logger.error("Unexpected error",
-      error: inspect(error)
-    )
-
-    {:error, %{status: :unknown_error, message: "An unexpected error occurred"}}
   end
 end
