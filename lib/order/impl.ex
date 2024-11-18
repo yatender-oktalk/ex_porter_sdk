@@ -1,29 +1,32 @@
 defmodule ExPorterSDK.Order.Impl do
-  @moduledoc "Handles order-related operations"
+  alias ExPorterSDK.ErrorHandler
 
-  alias ExPorterSDK.Client.Config
+  def create(params) do
+    config = ExPorterSDK.Config.get()
 
-  @spec create(Config.t(), map()) :: {:ok, map()} | {:error, map()}
-  def create(config, params) do
-    Req.post(config.base_url <> "/order/create",
+    Req.post(config.base_url <> "/v1/order",
       json: params,
       headers: [{"x-api-key", config.api_key}]
     )
+    |> ErrorHandler.handle_response()
   end
 
-  @spec track(Config.t(), String.t()) :: {:ok, map()} | {:error, map()}
-  def track(config, order_id) do
-    Req.post(config.base_url <> "/order/track",
-      json: %{order_id: order_id},
+  def track(order_id) do
+    config = ExPorterSDK.Config.get()
+
+    Req.get(config.base_url <> "/v1/order/#{order_id}/track",
       headers: [{"x-api-key", config.api_key}]
     )
+    |> ErrorHandler.handle_response()
   end
 
-  @spec cancel(Config.t(), String.t(), String.t()) :: {:ok, map()} | {:error, map()}
-  def cancel(config, order_id, reason) do
-    Req.post(config.base_url <> "/order/cancel",
-      json: %{order_id: order_id, reason: reason},
+  def cancel(order_id, reason) do
+    config = ExPorterSDK.Config.get()
+
+    Req.post(config.base_url <> "/v1/order/#{order_id}/cancel",
+      json: %{reason: reason},
       headers: [{"x-api-key", config.api_key}]
     )
+    |> ErrorHandler.handle_response()
   end
 end

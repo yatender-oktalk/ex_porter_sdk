@@ -1,14 +1,12 @@
-defmodule ExPorterSDK.Client.Order do
+defmodule ExPorterSDK.Http.Impl do
   @moduledoc """
-  HTTP Client for Porter API endpoints using Req.
+  HTTP client wrapper for Porter API.
   """
 
   require Logger
-  alias ExPorterSDK.Client.Config
 
   @base_headers [
-    {"content-type", "application/json"},
-    {"x-api-key", Config.api_key()}
+    {"content-type", "application/json"}
   ]
 
   def request(method, path, body \\ nil) do
@@ -19,8 +17,8 @@ defmodule ExPorterSDK.Client.Order do
     )
 
     Req.new(
-      base_url: Config.base_url(),
-      headers: @base_headers
+      base_url: ExPorterSDK.Config.base_url(),
+      headers: @base_headers ++ [{"x-api-key", ExPorterSDK.Config.api_key()}]
     )
     |> Req.request(method: method, url: path, json: body)
     |> handle_response(method, path)
@@ -57,7 +55,6 @@ defmodule ExPorterSDK.Client.Order do
     {:error, error}
   end
 
-  # Sanitize sensitive data from logs
   defp sanitize_logs(nil), do: nil
 
   defp sanitize_logs(body) when is_map(body) do
@@ -70,41 +67,5 @@ defmodule ExPorterSDK.Client.Order do
       {k, v} ->
         {k, v}
     end)
-  end
-
-  @doc """
-  Get quote for delivery
-  """
-  def get_quote(params) do
-    Logger.debug("Getting delivery quote", params: sanitize_logs(params))
-    request(:post, "/api/v1/quote", params)
-  end
-
-  @doc """
-  Create a new order
-  """
-  def create_order(params) do
-    Logger.debug("Creating new order", params: sanitize_logs(params))
-    request(:post, "/api/v1/order", params)
-  end
-
-  @doc """
-  Track an order
-  """
-  def track_order(order_id) do
-    Logger.debug("Tracking order", order_id: order_id)
-    request(:get, "/api/v1/order/#{order_id}/track")
-  end
-
-  @doc """
-  Cancel an order
-  """
-  def cancel_order(order_id, reason) do
-    Logger.debug("Cancelling order",
-      order_id: order_id,
-      reason: reason
-    )
-
-    request(:post, "/api/v1/order/#{order_id}/cancel", %{reason: reason})
   end
 end

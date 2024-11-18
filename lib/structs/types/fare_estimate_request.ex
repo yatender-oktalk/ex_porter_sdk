@@ -14,7 +14,7 @@ defmodule ExPorterSDK.Structs.Types.FareEstimateRequest do
     field :customer, CustomerDetails.t(), enforce: true
   end
 
-  def validate(struct), do: Validatable.validate(struct)
+  def validate_struct(struct), do: Validatable.validate(struct)
   def to_map(struct), do: Mappable.to_map(struct)
   def from_map(map), do: Structable.from_map(map)
 end

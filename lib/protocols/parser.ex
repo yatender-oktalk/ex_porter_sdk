@@ -1,4 +1,9 @@
-defmodule Parser do
+defmodule ExPorterSDK.Parser do
+  alias ExPorterSDK.Structs.Types.FareEstimateRequest
+  alias ExPorterSDK.Structs.Types.AddressLatLng
+  alias ExPorterSDK.Structs.Types.CustomerDetails
+  alias ExPorterSDK.Structs.Types.ContactDetails
+
   @moduledoc """
   Provides functions to parse fare estimate data, customer details, contact details, and addresses.
   """
@@ -75,6 +80,8 @@ defmodule Parser do
   def parse_contact(map) when not is_map(map), do: {:error, "Invalid contact format"}
 
   def parse_contact(map) do
+    dbg(map)
+
     with true <- is_binary(map["country_code"]) || {:error, "Country code must be a string"},
          true <- is_binary(map["number"]) || {:error, "Number must be a string"},
          false <-
@@ -118,17 +125,6 @@ defmodule Parser do
     end
   end
 
-  @doc """
-  Validates a coordinate value.
-
-  ## Parameters
-    - value: The coordinate value to validate.
-    - coord_type: The type of coordinate ("latitude" or "longitude").
-
-  ## Returns
-    - `{:ok, float()}` if the coordinate is valid.
-    - `{:error, String.t()}` if the coordinate is invalid.
-  """
   @spec validate_coordinate(any(), String.t()) :: {:ok, float()} | {:error, String.t()}
   defp validate_coordinate(value, coord_type) when is_number(value) do
     cond do
