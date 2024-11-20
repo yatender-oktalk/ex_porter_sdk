@@ -6,7 +6,6 @@ defmodule ExPorterSDK.Order.Stub do
   @behaviour ExPorterSDK.Behaviours.Order
 
   @impl true
-  @impl true
   def create(_params) do
     {:ok,
      %{

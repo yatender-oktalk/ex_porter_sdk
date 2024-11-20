@@ -16,12 +16,21 @@ end
 
 ## Configuration
 
-Add to your `config.exs`:
+Add to your `runtime.exs`:
 
 ```elixir
 config :ex_porter_sdk,
-  base_url: "https://api.porter.in",  # Required
-  api_key: "your-api-key"             # Required
+  base_url: "https://api.porter.in",        # Required
+  api_key: System.get_env("PORTER_API_KEY") # Required
+```
+
+for dev/UAT env
+
+```elixir
+config :ex_porter_sdk,
+  base_url: "https://pfe-apigw-uat.porter.in",
+  api_key: System.get_env("PORTER_API_KEY")
+
 ```
 
 ## Usage
@@ -55,7 +64,7 @@ config :ex_porter_sdk,
 {:ok, tracking} = ExPorterSDK.Order.track(order["order_id"])
 
 # Cancel order
-{:ok, result} = ExPorterSDK.Order.cancel(order["order_id"], "customer request")
+{:ok, result} = ExPorterSDK.Order.cancel(order["order_id"])
 ```
 
 ## Testing

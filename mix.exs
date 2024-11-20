@@ -1,4 +1,4 @@
-defmodule ExPorterSdk.MixProject do
+defmodule ExPorterSDK.MixProject do
   use Mix.Project
 
   def project do
@@ -10,7 +10,7 @@ defmodule ExPorterSdk.MixProject do
       deps: deps(),
       description: description(),
       package: package(),
-      name: "ExPorterSdk",
+      name: "ExPorterSDK",
       source_url: "https://github.com/yatender-oktalk/ex_porter_sdk"
     ]
   end

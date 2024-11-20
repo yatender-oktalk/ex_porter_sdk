@@ -1,4 +1,4 @@
-defmodule ExPorterSdkTest do
+defmodule ExPorterSDKTest do
   use ExUnit.Case
   doctest ExPorterSDK
 

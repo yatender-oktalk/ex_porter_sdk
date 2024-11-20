@@ -59,7 +59,7 @@ defmodule ExPorterSDK.OrderTest do
 
   @valid_order_id "CRN1732081876717"
 
-  describe "concrete stub implementation" do
+  describe "using concrete stub" do
     test "creates order successfully" do
       assert {:ok, response} = Order.create(@valid_create_params)
       assert_valid_create_response(response)
@@ -76,7 +76,7 @@ defmodule ExPorterSDK.OrderTest do
     end
   end
 
-  describe "error scenarios with mock" do
+  describe "using mock for error scenarios" do
     setup do
       previous_impl = Application.get_env(:ex_porter_sdk, :order_impl)
       Application.put_env(:ex_porter_sdk, :order_impl, ExPorterSDK.MockOrder)
@@ -84,27 +84,77 @@ defmodule ExPorterSDK.OrderTest do
       on_exit(fn ->
         Application.put_env(:ex_porter_sdk, :order_impl, previous_impl)
       end)
-
-      :ok
     end
 
-    test "handles invalid create params" do
+    test "handles missing required fields in create params" do
       ExPorterSDK.MockOrder
       |> expect(:create, fn _params ->
-        {:error, %{status: 400, message: "Invalid parameters"}}
+        {:error, %{status: 400, message: "Missing required fields"}}
       end)
 
       invalid_params = Map.delete(@valid_create_params, :pickup_details)
       assert {:error, %{status: 400}} = Order.create(invalid_params)
     end
 
-    test "handles non-existent order tracking" do
+    test "handles non-existent order in tracking" do
       ExPorterSDK.MockOrder
       |> expect(:track, fn "non_existent" ->
         {:error, %{status: 404, message: "Order not found"}}
       end)
 
       assert {:error, %{status: 404}} = Order.track("non_existent")
+    end
+
+    test "handles already cancelled order" do
+      ExPorterSDK.MockOrder
+      |> expect(:cancel, fn @valid_order_id ->
+        {:error, %{status: 400, message: "Order is already cancelled"}}
+      end)
+
+      assert {:error, %{status: 400}} = Order.cancel(@valid_order_id)
+    end
+  end
+
+  describe "error scenarios with invalid data" do
+    setup do
+      previous_impl = Application.get_env(:ex_porter_sdk, :order_impl)
+      Application.put_env(:ex_porter_sdk, :order_impl, ExPorterSDK.MockOrder)
+
+      on_exit(fn ->
+        Application.put_env(:ex_porter_sdk, :order_impl, previous_impl)
+      end)
+    end
+
+    test "handles invalid latitude in create params" do
+      ExPorterSDK.MockOrder
+      |> expect(:create, fn _params ->
+        {:error, %{status: 400, message: "Invalid latitude value"}}
+      end)
+
+      invalid_params =
+        put_in(
+          @valid_create_params,
+          [:pickup_details, :address, :lat],
+          "invalid"
+        )
+
+      assert {:error, %{status: 400}} = Order.create(invalid_params)
+    end
+
+    test "handles invalid phone number format" do
+      ExPorterSDK.MockOrder
+      |> expect(:create, fn _params ->
+        {:error, %{status: 400, message: "Invalid phone number format"}}
+      end)
+
+      invalid_params =
+        put_in(
+          @valid_create_params,
+          [:pickup_details, :address, :contact_details, :phone_number],
+          "invalid"
+        )
+
+      assert {:error, %{status: 400}} = Order.create(invalid_params)
     end
   end
 
