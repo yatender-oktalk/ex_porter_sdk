@@ -20,12 +20,6 @@ defmodule ExPorterSDK.Quote do
   alias ExPorterSDK.Parser
   alias ExPorterSDK.Structs.Types.FareEstimateRequest
 
-  # Define known keys that we expect in the params
-  @valid_keys ~w(pickup_details drop_details customer)
-  @valid_address_keys ~w(lat lng)
-  @valid_customer_keys ~w(name mobile)
-  @valid_mobile_keys ~w(number country_code)
-
   @impl ExPorterSDK.Behaviours.Quote
   def get_quote(params) when is_map(params) do
     with {:ok, normalized_params} <- normalize_params(params),

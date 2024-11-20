@@ -6,35 +6,46 @@ defmodule ExPorterSDK.Order.Stub do
   @behaviour ExPorterSDK.Behaviours.Order
 
   @impl true
-  def create(params) do
+  @impl true
+  def create(_params) do
     {:ok,
      %{
-       "order_id" => "test_order_123",
+       "order_id" => "CRN1732081876717",
        "status" => "created",
-       "params" => params
+       "estimated_price" => %{
+         "currency" => "INR",
+         "minor_amount" => 68
+       },
+       "pickup_eta" => 1_651_762_986
      }}
   end
 
   @impl true
-  def track(order_id) do
+  def track(_order_id) do
     {:ok,
      %{
-       "order_id" => order_id,
+       "order_id" => "CRN1732081876717",
        "status" => "in_progress",
-       "location" => %{
-         "lat" => 12.9716,
-         "lng" => 77.5946
+       "fare_details" => %{
+         "actual_fare_details" => nil,
+         "estimated_fare_details" => %{"currency" => "INR", "minor_amount" => 68}
+       },
+       "order_timings" => %{
+         "order_accepted_time" => 1_651_759_436,
+         "order_ended_time" => nil,
+         "order_started_time" => nil,
+         "pickup_time" => 1_651_762_986
+       },
+       "partner_info" => %{
+         "name" => "Test Driver",
+         "phone_number" => "+919876543210",
+         "vehicle_number" => "KA01AB1234"
        }
      }}
   end
 
   @impl true
-  def cancel(order_id, reason) do
-    {:ok,
-     %{
-       "order_id" => order_id,
-       "status" => "cancelled",
-       "reason" => reason
-     }}
+  def cancel(_order_id) do
+    {:ok, %{"code" => 200, "message" => "order got cancelled successfully!!"}}
   end
 end

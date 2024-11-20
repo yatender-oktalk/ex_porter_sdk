@@ -2,7 +2,7 @@
 defmodule ExPorterSDK.ErrorHandler do
   require Logger
 
-  def handle_response({:ok, %{status: 200, body: body}}) do
+  def handle_response({:ok, %{status: status, body: body}}) when status in 200..299 do
     {:ok, body}
   end
 
