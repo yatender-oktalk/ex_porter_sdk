@@ -245,3 +245,7 @@ If you need help, you can:
 Contributors who add significant value to the project will be recognized in our README.md file.
 
 Thank you for contributing to ExPorterSDK! 🚀
+
+[![Hex.pm](https://img.shields.io/hexpm/v/ex_porter_sdk.svg)](https://hex.pm/packages/ex_porter_sdk)
+[![Hex.pm Downloads](https://img.shields.io/hexpm/dt/ex_porter_sdk.svg)](https://hex.pm/packages/ex_porter_sdk)
+[![Documentation](https://img.shields.io/badge/hex-docs-blue.svg)](https://hexdocs.pm/ex_porter_sdk)
