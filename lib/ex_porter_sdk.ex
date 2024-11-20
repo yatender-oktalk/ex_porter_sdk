@@ -100,8 +100,8 @@ defmodule ExPorterSDK do
   The SDK provides stub implementations for testing. Configure them in your `config/test.exs`:
 
       config :ex_porter_sdk,
-        base_url: "https://api.porter.test",
-        api_key: "test_api_key",
+        base_url: "https://api.porter.in",
+        api_key: "your-api-key",
         quote_impl: ExPorterSDK.Quote.Stub,
         order_impl: ExPorterSDK.Order.Stub
 
