@@ -127,7 +127,7 @@ This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md
 ## Support
 
 - Open an issue for bug reports or feature requests
-- For detailed questions, please email [your-email]
+- For detailed questions, please email `yatender[dot]nitk[at]gmail[dot]com`
 
 ## Acknowledgments
 
